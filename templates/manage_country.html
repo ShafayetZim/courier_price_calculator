@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col-lg-12 col-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                            <h4>Create New Country</h4>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+
+                    <form action="" id="country-form" >
+
+                        <input type="hidden" name="id" value="{{country.id}}" />
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="name" class="control-label">Country Name</label>
+                                      <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        class="form-control rounded-0"
+                                        value="{{country.name}}"
+                                        required
+                                      />
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="code" class="control-label">Country Code</label>
+                                      <input
+                                        type="text"
+                                        id="code"
+                                        name="code"
+                                        class="form-control rounded-0"
+                                        value="{{country.code}}"
+                                        required
+                                      />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-4">
+
+                            <div class="col">
+                                <label for="continent" class="control-label">Continent Name</label>
+                                      <select name="continent" id="continent" class="form-control rounded-0">
+                                        {% if country.continent %}
+                                          <option selected value="{{country.continent.pk}}">{{country.continent}}</option>
+                                        {% endif %}
+                                        {% for item in continents %}
+                                          <option value="{{item.pk}}">{{item.name}}</option>
+                                        {% endfor %}
+                                      </select>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-primary">
+                        </div>
+<!--                        <button type="button" class="btn mt-5 mb-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" data-toggle="modal" data-target="#myModal">Preview</button>-->
+
+                    </form>
+
+                </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  $(function () {
+    $('#country-form').submit(function(e) {
+            e.preventDefault();
+            var _this = $(this)
+            $('.err-msg').remove();
+            var el = $('<div>')
+            el.addClass("alert alert-danger err-msg")
+            el.hide()
+            if (_this[0].checkValidity() == false) {
+                _this[0].reportValidity();
+                return false;
+            }
+
+            start_loader();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save-country' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                error: err => {
+                    console.log(err)
+                    alert("An error occured", 'error');
+                    end_loader();
+                },
+                success: function(resp) {
+                    if (typeof resp == 'object' && resp.status == 'success') {
+                        location.replace('{% url "country-page" %}')
+                    } else if (resp.status == 'failed' && !!resp.msg) {
+                        el.text(resp.msg)
+                    } else {
+                        el.text("An error occured", 'error');
+                        end_loader();
+                        console.err(resp)
+                    }
+                    _this.prepend(el)
+                    el.show('slow')
+                    $("html, body, .modal").scrollTop(0);
+                    end_loader()
+                }
+            })
+        })
+  });
+
+</script>
+
+
+{% endblock content %}
