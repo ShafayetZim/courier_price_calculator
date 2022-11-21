@@ -41,7 +41,7 @@ urlpatterns = [
     # path('commission_setting', views.commission_setting, name='commission-setting-page'),
     path('dhl_commission_setting', views.dhl_commission_setting, name='dhl-commission-setting-page'),
     path('upc_commission_setting', views.upc_commission_setting, name='upc-commission-setting-page'),
-
+    path('tpc_commission_setting', views.tpc_commission_setting, name='tpc-commission-setting-page'),
     path('new_commission_setting', views.new_commission_setting, name='new-commission-setting'),
     path('update_commission_setting/<int:pk>', views.CommissionSettingUpdateView.as_view(), name='update-commission-setting'),
     path('delete_commission_setting/<int:id>', views.delete_commission_setting, name='delete-commission-setting'),

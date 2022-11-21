@@ -519,7 +519,12 @@ def upc_commission_setting(request):
     return render(request, 'commission_setting.html', context)
 
 
-
+def tpc_commission_setting(request):
+    context = context_data(request)
+    context['title'] = 'Commission Setting'
+    context['nav_bar'] = "tpc_commission_setting_list"
+    context['commissions'] = models.CommissionSetting.objects.filter(courier='1').all()
+    return render(request, 'commission_setting.html', context)
 
 
 def new_commission_setting(request):
