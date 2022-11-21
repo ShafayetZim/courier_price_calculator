@@ -38,7 +38,9 @@ urlpatterns = [
     path('dollar_rate', views.dollar_rate, name='dollar-rate'),
     path('update_dollar_rate/<int:pk>', views.DollarRateUpdateView.as_view(), name='update-dollar-rate'),
 
-    path('commission_setting', views.commission_setting, name='commission-setting-page'),
+    # path('commission_setting', views.commission_setting, name='commission-setting-page'),
+    path('dhl_commission_setting', views.dhl_commission_setting, name='dhl-commission-setting-page'),
+
     path('new_commission_setting', views.new_commission_setting, name='new-commission-setting'),
     path('update_commission_setting/<int:pk>', views.CommissionSettingUpdateView.as_view(), name='update-commission-setting'),
     path('delete_commission_setting/<int:id>', views.delete_commission_setting, name='delete-commission-setting'),
