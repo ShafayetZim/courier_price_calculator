@@ -511,6 +511,14 @@ def dhl_commission_setting(request):
     return render(request, 'commission_setting.html', context)
 
 
+def upc_commission_setting(request):
+    context = context_data(request)
+    context['title'] = 'Commission Setting'
+    context['nav_bar'] = "upc_commission_setting_list"
+    context['commissions'] = models.CommissionSetting.objects.filter(courier='2').all()
+    return render(request, 'commission_setting.html', context)
+
+
 
 
 
