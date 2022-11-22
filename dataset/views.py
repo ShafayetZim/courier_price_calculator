@@ -597,6 +597,14 @@ def dhl_zone_setting(request):
     return render(request, 'zone_setting.html', context)
 
 
+def upc_zone_setting(request):
+    context = context_data(request)
+    context['title'] = 'Zone Setting'
+    context['nav_bar'] = "upc_zone_setting_list"
+    context['zones'] = models.ZoneSetting.objects.filter(courier=2).all()
+    return render(request, 'zone_setting.html', context)
+
+
 
 
 

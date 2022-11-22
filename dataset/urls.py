@@ -48,6 +48,7 @@ urlpatterns = [
 
     # path('zone_setting', views.zone_setting, name='zone-setting-page'),
     path('dhl_zone_setting', views.dhl_zone_setting, name='dhl-zone-setting-page'),
+    path('upc_zone_setting', views.upc_zone_setting, name='upc-zone-setting-page'),
 
     path('new_zone_setting', views.new_zone_setting, name='new-zone-setting'),
     path('update_zone_setting/<int:pk>', views.ZoneSettingUpdateView.as_view(), name='update-zone-setting'),
