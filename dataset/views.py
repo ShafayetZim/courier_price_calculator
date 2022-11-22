@@ -605,7 +605,12 @@ def upc_zone_setting(request):
     return render(request, 'zone_setting.html', context)
 
 
-
+def tpc_zone_setting(request):
+    context = context_data(request)
+    context['title'] = 'Zone Setting'
+    context['nav_bar'] = "tpc_zone_setting_list"
+    context['zones'] = models.ZoneSetting.objects.filter(courier=1).all()
+    return render(request, 'zone_setting.html', context)
 
 
 def new_zone_setting(request):
