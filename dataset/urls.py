@@ -46,7 +46,9 @@ urlpatterns = [
     path('update_commission_setting/<int:pk>', views.CommissionSettingUpdateView.as_view(), name='update-commission-setting'),
     path('delete_commission_setting/<int:id>', views.delete_commission_setting, name='delete-commission-setting'),
 
-    path('zone_setting', views.zone_setting, name='zone-setting-page'),
+    # path('zone_setting', views.zone_setting, name='zone-setting-page'),
+    path('dhl_zone_setting', views.dhl_zone_setting, name='dhl-zone-setting-page'),
+
     path('new_zone_setting', views.new_zone_setting, name='new-zone-setting'),
     path('update_zone_setting/<int:pk>', views.ZoneSettingUpdateView.as_view(), name='update-zone-setting'),
     path('delete_zone_setting/<int:id>', views.delete_zone_setting, name='delete-zone-setting'),
@@ -55,5 +57,7 @@ urlpatterns = [
     path('new_pricing', views.new_pricing, name='new-pricing'),
     path('update_pricing/<int:pk>', views.PricingUpdateView.as_view(), name='update-pricing'),
     path('delete_pricing/<int:id>', views.delete_pricing, name='delete-pricing'),
+
+    path('index', views.index, name="index"),
 
 ]

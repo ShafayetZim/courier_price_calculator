@@ -589,6 +589,17 @@ def zone_setting(request):
     return render(request, 'zone_setting.html', context)
 
 
+def dhl_zone_setting(request):
+    context = context_data(request)
+    context['title'] = 'Zone Setting'
+    context['nav_bar'] = "dhl_zone_setting_list"
+    context['zones'] = models.ZoneSetting.objects.filter(courier=3).all()
+    return render(request, 'zone_setting.html', context)
+
+
+
+
+
 def new_zone_setting(request):
     template_name = 'new_zone_setting.html'
 
@@ -641,3 +652,11 @@ def delete_zone_setting(request, id):
         instance.delete()
         messages.add_message(request, messages.WARNING, 'Delete Success')
         return redirect('zone-setting-page')
+
+
+def index(request):
+    context = context_data(request)
+    context['title'] = 'index'
+    context['nav_bar'] = "index"
+    context['index'] = models.Continent.objects.all()
+    return render(request, 'web/index.html', context)
