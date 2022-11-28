@@ -671,5 +671,94 @@ def index(request):
     context = context_data(request)
     context['title'] = 'index'
     context['nav_bar'] = "index"
-    context['index'] = models.Continent.objects.all()
+
+    request_data = request.GET
+    check_country = request_data.get("check_country")
+    check_continent = request_data.get("continent")
+    check_courier = request_data.get("check_courier")
+    check_provider = request_data.get("check_provider")
+    check_weight = request_data.get("check_weight")
+    check_type = request_data.get("check_type")
+    check_commission = request_data.get("commission")
+    check_discount = request_data.get("discount")
+    check_vat = request_data.get("vat")
+    # print(check_country, check_continent, check_courier, check_provider, check_weight, check_type)
+
+    continents = models.Continent.objects.filter(name=check_continent)
+    context['continents'] = continents
+
+    price = 0
+    # name = ''
+    for item in context['continents']:
+        price = float(item.price)
+        # name = item.name
+    # price = price
+
+    zones = models.ZoneSetting.objects.filter(courier=check_courier, country=check_country)
+    context['zones'] = zones
+
+    c_zone = 0
+    for item in context['zones']:
+        c_zone = item.zone
+    c_zone = c_zone
+
+    fuel = models.CommissionSetting.objects.filter(courier=check_courier)
+    context['fuel'] = fuel
+
+    charge = 0
+    for item in context['fuel']:
+        charge = float(item.fuel_charge)
+
+    weight_cost = models.Pricing.objects.filter(courier=check_courier, service=check_provider, type=check_type, weight=check_weight, zone=c_zone)
+    context['weight_cost'] = weight_cost
+
+    weight_charge = 0
+    for item in context['weight_cost']:
+        weight_charge = float(item.price)
+    weight_charge = weight_charge
+
+    total = price + charge + weight_charge
+    commission = float(check_commission or 0)
+    total_commission = (total*commission)/100
+    total_with_commission = total + total_commission
+    discount = float(check_discount or 0)
+    total_discount = (total_with_commission*discount)/100
+    total_with_discount = (total_with_commission - total_discount)
+    vat = float(check_vat or 0)
+    total_vat = (total_with_discount*vat)/100
+    total_with_vat = total_with_discount + total_vat
+
+    dollar_rate = models.DollarRate.objects.all()
+    context[dollar_rate] = dollar_rate
+
+    rate = 0
+    for item in context[dollar_rate]:
+        rate = item.rate
+
+    total_taka = total_with_vat * rate
+
+    context['countries'] = models.Country.objects.all()
+    context['couriers'] = models.Courier.objects.all()
+    context['providers'] = models.ServiceProvider.objects.all()
+    context['weights'] = models.Weight.objects.all()
+
+    context['continent_price'] = price
+    # context['continents_name'] = name
+    context['c_zone'] = c_zone
+    context['charge'] = charge
+    context['weight_charge'] = weight_charge
+    context['total_taka'] = total_taka
+    context['total'] = total_with_vat
+    context['commission_value'] = total_commission
+    context['discount_value'] = total_discount
+    context['vat_value'] = total_vat
+    context['commission_percentage'] = check_commission
+    context['discount_percentage'] = check_discount
+    context['vat_percentage'] = check_vat
+    context['continents_name'] = check_continent
+    context['check_type'] = check_type
+    context['check_weight'] = check_weight
     return render(request, 'web/index.html', context)
+
+
+
