@@ -60,5 +60,6 @@ urlpatterns = [
     path('delete_pricing/<int:id>', views.delete_pricing, name='delete-pricing'),
 
     path('index', views.index, name="index"),
+    path('ajax/load_service/', views.load_services, name='load-service'),
 
 ]
