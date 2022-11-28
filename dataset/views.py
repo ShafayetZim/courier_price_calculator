@@ -761,4 +761,10 @@ def index(request):
     return render(request, 'web/index.html', context)
 
 
-
+def load_services(request):
+    courier_id = request.GET.get('check_courier')
+    services = models.ServiceProvider.objects.filter(courier_id=courier_id)
+    context = {
+        'services': services
+    }
+    return render(request, 'web/service.html', context)
